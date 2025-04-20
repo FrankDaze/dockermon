@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="login-container">
+        <h1>Docker Dashboard Login</h1>
+        <form action="/login" method="POST" class="form" autocomplete="off">
+            <!-- Dummy-Feld, um Autovervollständigung zu verhindern -->
+            <input type="text" style="display:none" autocomplete="username">
+            <input type="password" style="display:none" autocomplete="new-password">
+
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="user_name" required autocomplete="off" value="">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="user_pass" required autocomplete="off" value="">
+            </div>
+            <button type="submit" class="button">Login</button>
+        </form>
+    </div>
+
+</body>
+</html>

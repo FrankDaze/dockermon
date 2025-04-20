@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Docker Dashboard</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="logout-button" style="text-align: right; margin-bottom: 20px;">
+      <a href="/logout" class="button" style="background-color: #007bff; color: white; padding: 10px 15px; border-radius: 3px; text-decoration: none;">Logout</a>
+    </div>
+    <h1>Docker Dashboard</h1>
+
+    <% for (let group in groupedContainers) { %>
+      <div class="project" data-group="<%= group %>">
+        <div class="project-header" onclick="toggleGroup('<%= group %>')">
+          <div class="project-info">
+            <span class="status-indicator <%= groupedContainers[group].status %>"></span>
+            <span class="project-title"><i class="fa fa-folder"></i> <%= group %></span>
+          </div>
+          <div class="group-actions" onclick="event.stopPropagation()" id="group-actions-<%= group %>">
+            <% if (groupedContainers[group].status === 'stopped') { %>
+                <button onclick="groupAction('<%= group %>', 'start', this)" title="Alle starten" action-start>
+                  <i class="fa fa-play"></i>
+                </button>
+              <% } else { %>
+                <button onclick="groupAction('<%= group %>', 'stop', this)" title="Alle stoppen" action-stop>
+                  <i class="fa fa-pause"></i>
+                </button>
+            <% } %>
+          </div>
+        </div>
+
+        <div class="container-list hidden" id="group-<%= group %>">
+          <% groupedContainers[group].containers.forEach(container => { %>
+            <div class="container-item" data-id="<%= container.Id %>" data-state="<%= container.State %>">
+              <div class="container-info">
+                <strong><%= container.Names[0].replace('/', '') %></strong>
+                <small>ID: <%= container.Id.slice(0, 12) %></small>
+                <small>Ports:
+                  <% if (container.Ports.length > 0) { %>
+                    <%= container.Ports.map(p => p.PublicPort ? p.PublicPort + ':' + p.PrivatePort : p.PrivatePort).join(', ') %>
+                  <% } else { %>-<% } %>
+                </small>
+                <span class="status <%= container.State %>"><%= container.State %></span>
+              </div>
+              <div class="container-actions">
+                <% if (container.State === 'running') { %>
+                  <button onclick="containerAction('<%= container.Id %>', 'stop')" title="Stop"><i class="fa fa-pause"></i></button>
+                <% } else { %>
+                  <button onclick="containerAction('<%= container.Id %>', 'start')" title="Start"><i class="fa fa-play"></i></button>
+                <% } %>
+                <button onclick="deleteContainer('<%= container.Id %>')" title="Löschen"><i class="fa fa-trash"></i></button>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+    <% } %>
+  </div>
+
+  <script src="/script.js"></script>
+</body>
+</html>
