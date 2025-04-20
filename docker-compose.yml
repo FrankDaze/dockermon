@@ -10,5 +10,6 @@ services:
       - SESSION_SECRET=e7f3c9a1d4b8f6a7c2e9d5f4a3b7c6e8
     volumes:
       - .:/app
+      - /app/node_modules
       - /var/run/docker.sock:/var/run/docker.sock
     command: ["node", "index.js"]
