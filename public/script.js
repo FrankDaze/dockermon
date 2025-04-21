@@ -100,3 +100,46 @@ const openGroups = (urlParams.get('open') || '').split(',');
 openGroups.forEach(g => {
     if (g) toggleGroup(g);
 });
+
+/**
+ * Fetches the CPU usage for a specific container and updates the UI.
+ * @param {string} containerId - The ID of the container.
+ */
+async function fetchCpuUsage(containerId) {
+    try {
+        const res = await fetch(`/api/cpu-usage/${containerId}`);
+        if (!res.ok) throw new Error(await res.text());
+        const data = await res.json();
+        document.getElementById(`cpu-usage-${containerId}`).textContent = `${data.cpuUsage}%`;
+    } catch (err) {
+        document.getElementById(`cpu-usage-${containerId}`).textContent = 'Error';
+    }
+}
+
+/**
+ * Fetches the RAM usage for a specific container and updates the UI.
+ * Displays the usage in MB.
+ * @param {string} containerId - The ID of the container.
+ */
+async function fetchRamUsage(containerId) {
+    try {
+        const res = await fetch(`/api/ram-usage/${containerId}`);
+        if (!res.ok) throw new Error(await res.text());
+        const data = await res.json();
+        document.getElementById(`ram-usage-${containerId}`).textContent = `${data.memoryUsage} MB / ${data.memoryLimit} MB`;
+    } catch (err) {
+        document.getElementById(`ram-usage-${containerId}`).textContent = 'Error';
+    }
+}
+
+/**
+ * Event listener to initialize fetching of CPU and RAM usage for all containers on page load.
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    const containerElements = document.querySelectorAll('[data-id]');
+    containerElements.forEach(el => {
+        const containerId = el.getAttribute('data-id');
+        fetchCpuUsage(containerId);
+        fetchRamUsage(containerId);
+    });
+});

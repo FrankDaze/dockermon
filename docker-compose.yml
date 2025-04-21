@@ -5,9 +5,9 @@ services:
     ports:
       - "3005:3000" # Benutzerpräferenz: Port 3005 für externen Zugriff
     environment:
-      - USERNAME=admin
-      - PASSWORD=password
-      - SESSION_SECRET=e7f3c9a1d4b8f6a7c2e9d5f4a3b7c6e8
+      - USERNAME=Admin
+      - PASSWORD=Password
+      - SESSION_SECRET=secret
     volumes:
       - .:/app
       - /app/node_modules

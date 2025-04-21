@@ -214,6 +214,64 @@ app.post('/api/group-action/:group', async (req, res) => {
     }
 });
 
+/**
+ * API route to fetch CPU usage for a specific Docker container.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
+app.get('/api/cpu-usage/:id', async (req, res) => {
+    try {
+        const container = docker.getContainer(req.params.id);
+        const stats = await container.stats({
+            stream: false
+        });
+
+        const cpuDelta = stats.cpu_stats.cpu_usage.total_usage - stats.precpu_stats.cpu_usage.total_usage;
+        const systemDelta = stats.cpu_stats.system_cpu_usage - stats.precpu_stats.system_cpu_usage;
+
+        let cpuUsage = 0;
+        if (systemDelta > 0 && stats.cpu_stats.online_cpus) {
+            cpuUsage = (cpuDelta / systemDelta) * stats.cpu_stats.online_cpus * 100;
+        }
+
+        res.json({
+            containerId: req.params.id,
+            cpuUsage: cpuUsage.toFixed(2) // Return CPU usage as a percentage with 2 decimal places
+        });
+    } catch (err) {
+        res.status(500).json({
+            error: 'Error fetching CPU usage: ' + err.message
+        });
+    }
+});
+
+/**
+ * API route to fetch RAM usage for a specific Docker container.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
+app.get('/api/ram-usage/:id', async (req, res) => {
+    try {
+        const container = docker.getContainer(req.params.id);
+        const stats = await container.stats({
+            stream: false
+        });
+
+        const memoryUsage = stats.memory_stats.usage / (1024 * 1024); // Convert to MB
+        const memoryLimit = stats.memory_stats.limit / (1024 * 1024); // Convert to MB
+
+        res.json({
+            containerId: req.params.id,
+            memoryUsage: memoryUsage.toFixed(2), // Return in MB with 2 decimal places
+            memoryLimit: memoryLimit.toFixed(2) // Return in MB with 2 decimal places
+        });
+    } catch (err) {
+        res.status(500).json({
+            error: 'Error fetching RAM usage: ' + err.message
+        });
+    }
+});
+
 app.listen(port, () => {
     console.log(`🚀 Server läuft unter http://localhost:${port}`);
 });

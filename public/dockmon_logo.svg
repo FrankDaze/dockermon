@@ -1,0 +1,23 @@
+
+<svg width="320" height="100" viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .dockmon {
+      font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+      font-weight: 700;
+      font-size: 48px;
+      letter-spacing: -1px;
+    }
+    .dock {
+      fill: #000000;
+    }
+    .mon {
+      fill: #0db7ed;
+    }
+    @media (prefers-color-scheme: dark) {
+      .dock { fill: #ffffff; }
+    }
+  </style>
+  <text x="40" y="65" class="dockmon">
+    <tspan class="dock">Dock</tspan><tspan class="mon">Mon</tspan>
+  </text>
+</svg>
