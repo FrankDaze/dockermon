@@ -53,7 +53,7 @@ http://localhost:3005
    ```
 3. Access the application at:
    ```
-   http://localhost:3005
+   http://localhost:3000
    ```
 
 ## File Structure
