@@ -3,11 +3,11 @@ services:
     build:
       context: .
     ports:
-      - "3005:3000" # Benutzerpräferenz: Port 3005 für externen Zugriff
+      - "3005:3000" 
     environment:
-      - USERNAME=Admin
-      - PASSWORD=PASSWORD
-      - SESSION_SECRET=Secret
+      - USERNAME=${USERNAME}
+      - PASSWORD=${PASSWORD}
+      - SESSION_SECRET=${SESSION_SECRET}
     volumes:
       - /app/node_modules
       - /var/run/docker.sock:/var/run/docker.sock

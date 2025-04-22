@@ -23,11 +23,11 @@ cd DockMon
 ```
 
 ### 2. Set Up Environment Variables
-Create a `.env` file in the root directory and add the following variables (only needed for development, if you run locally):
+Create a `.env` file in the root directory and add the following variables:
 ```env
-USERNAME=admin
-PASSWORD=password
-SESSION_SECRET=your_secret_key
+USERNAME=your_username
+PASSWORD=your_password
+SESSION_SECRET=your_session_secret
 ```
 
 ### 3. Build and Start the Application
@@ -41,6 +41,9 @@ Open your browser and navigate to:
 ```
 http://localhost:3005
 ```
+
+## Security Note
+Ensure that the `.env` file is not committed to version control by adding it to `.gitignore`.
 
 ## Development
 
