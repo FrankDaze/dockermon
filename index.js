@@ -42,6 +42,27 @@ function checkAuth(req, res, next) {
 }
 
 /**
+ * Middleware to protect API routes.
+ * Ensures that only authenticated users can access API endpoints.
+ * Returns a 401 Unauthorized response if the user is not logged in.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next middleware function.
+ */
+function checkApiAuth(req, res, next) {
+    if (req.session && req.session.loggedIn) {
+        next();
+    } else {
+        res.status(401).json({
+            error: 'Unauthorized: Please log in to access this resource.'
+        });
+    }
+}
+
+// Protect all API routes
+app.use('/api', checkApiAuth);
+
+/**
  * Route to render the login page.
  * @param {Object} req - The request object.
  * @param {Object} res - The response object.
@@ -268,6 +289,28 @@ app.get('/api/ram-usage/:id', async (req, res) => {
     } catch (err) {
         res.status(500).json({
             error: 'Error fetching RAM usage: ' + err.message
+        });
+    }
+});
+
+/**
+ * API route to fetch network information for a specific Docker container.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
+app.get('/api/network-info/:id', async (req, res) => {
+    try {
+        const container = docker.getContainer(req.params.id);
+        const containerInfo = await container.inspect();
+
+        const networkInfo = containerInfo.NetworkSettings.Networks;
+        res.json({
+            containerId: req.params.id,
+            networkInfo
+        });
+    } catch (err) {
+        res.status(500).json({
+            error: 'Error fetching network information: ' + err.message
         });
     }
 });

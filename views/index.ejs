@@ -58,6 +58,11 @@
                   </small>
                   <small>CPU Usage: <span id="cpu-usage-<%= container.Id %>">Loading...</span></small>
                   <small>RAM Usage: <span id="ram-usage-<%= container.Id %>">Loading...</span></small>
+                  <small>Network Info:
+                    <ul id="network-info-<%= container.Id %>">
+                      <li>Loading...</li>
+                    </ul>
+                  </small>
                 <% } %>
                 <span class="status <%= container.State %>"><%= container.State %></span>
               </div>
