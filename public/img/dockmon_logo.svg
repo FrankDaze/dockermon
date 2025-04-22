@@ -8,7 +8,7 @@
       letter-spacing: -1px;
     }
     .dock {
-      fill: #000000;
+      fill: #ffffff;
     }
     .mon {
       fill: #0db7ed;

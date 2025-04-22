@@ -316,5 +316,5 @@ app.get('/api/network-info/:id', async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`🚀 Server läuft unter http://localhost:${port}`);
+    console.log(`Server is running http://localhost:${port}`);
 });
