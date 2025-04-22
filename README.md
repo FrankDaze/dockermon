@@ -1,6 +1,6 @@
 # DockMon
 
-DockMon is a lightweight Docker monitoring dashboard that allows you to view and manage your Docker containers in a user-friendly interface.
+DockMon is a lightweight Docker monitoring / controlling dashboard that allows you to view and manage your Docker containers in a user-friendly interface.
 
 <img width="1196" alt="Image" src="https://github.com/user-attachments/assets/1f8fd91f-d4db-40d3-a534-a5ced787de42" />
 
