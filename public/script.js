@@ -146,7 +146,7 @@ async function fetchNetworkInfo(containerId) {
         networkInfoEl.innerHTML = '';
 
         for (const [networkName, networkDetails] of Object.entries(data.networkInfo)) {
-            const listItem = document.createElement('li');
+            const listItem = document.createElement('span');
             listItem.textContent = `${networkName}: IP ${networkDetails.IPAddress || 'N/A'}`;
             networkInfoEl.appendChild(listItem);
         }
