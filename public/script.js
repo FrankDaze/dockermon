@@ -133,7 +133,31 @@ async function fetchRamUsage(containerId) {
 }
 
 /**
- * Event listener to initialize fetching of CPU and RAM usage for all containers on page load.
+ * Fetches the network information for a specific container and updates the UI.
+ * @param {string} containerId - The ID of the container.
+ */
+async function fetchNetworkInfo(containerId) {
+    try {
+        const res = await fetch(`/api/network-info/${containerId}`);
+        if (!res.ok) throw new Error(await res.text());
+        const data = await res.json();
+
+        const networkInfoEl = document.getElementById(`network-info-${containerId}`);
+        networkInfoEl.innerHTML = '';
+
+        for (const [networkName, networkDetails] of Object.entries(data.networkInfo)) {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${networkName}: IP ${networkDetails.IPAddress || 'N/A'}`;
+            networkInfoEl.appendChild(listItem);
+        }
+    } catch (err) {
+        const networkInfoEl = document.getElementById(`network-info-${containerId}`);
+        networkInfoEl.innerHTML = '<li>Error loading network info</li>';
+    }
+}
+
+/**
+ * Event listener to initialize fetching of CPU, RAM, and network usage for all containers on page load.
  */
 document.addEventListener('DOMContentLoaded', () => {
     const containerElements = document.querySelectorAll('[data-id]');
@@ -141,5 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const containerId = el.getAttribute('data-id');
         fetchCpuUsage(containerId);
         fetchRamUsage(containerId);
+        fetchNetworkInfo(containerId);
     });
 });
