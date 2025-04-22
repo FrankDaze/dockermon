@@ -23,7 +23,7 @@ cd DockMon
 ```
 
 ### 2. Set Up Environment Variables
-Create a `.env` file in the root directory and add the following variables:
+Create a `.env` file in the root directory and add the following variables (only needed for development, if you run locally):
 ```env
 USERNAME=admin
 PASSWORD=password
