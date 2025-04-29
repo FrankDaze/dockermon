@@ -12,3 +12,4 @@ services:
       - /app/node_modules
       - /var/run/docker.sock:/var/run/docker.sock
     command: ["node", "index.js"]
+    restart: always
